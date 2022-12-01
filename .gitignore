@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 /chatty/node_modules
-/chatty/build
 .env
 # testing
 /coverage
