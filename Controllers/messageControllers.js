@@ -17,21 +17,6 @@ const allMessages = expressAsyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
-const findMessage = expressAsyncHandler(async (req, res) => {
-  console.log(req.params.messageId);
-  try {
-    await Message.findById(req.params.messageId).then((message) => {
-      if (message.sender[0]._id !== req.user._id) {
-        res.json(message);
-        console.log("message found");
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
 
 //@description     Create New Message
 //@route           POST /api/Message/
@@ -94,64 +79,7 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
     }
   }
 });
-const updateRead = expressAsyncHandler(async (req, res) => {
-  const { chatId, messageId } = req.body;
-  if (!chatId || !messageId) {
-    console.log("Invalid data passed into request");
-    return res.sendStatus(400);
-  }
-  const particularChat = await Chat.findById(chatId);
-  if (!particularChat.isGroupChat) {
-    try {
-      await Message.findById(messageId).then(async (mes) => {
-        if (mes.sender[0]._id !== req.user.id && mes.usersRead.length < 1) {
-          console.log("update read for single chat starting");
-          const updatedOne = await Message.findByIdAndUpdate(
-            messageId,
-            {
-              $push: {
-                usersRead: {
-                  readBy: req.user.name,
-                  readAt: new Date().getTime(),
-                },
-              },
-            },
-            {
-              new: true,
-            }
-          );
-          res.json(updatedOne);
-          console.log("update read for single chat done");
-        }
-        return;
-      });
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
-      console.log(error);
-    }
-  } else {
-    try {
-      console.log("update read for group chat starting");
-      const updatedGroupOne = await Message.findByIdAndUpdate(
-        messageId,
-        {
-          $push: {
-            usersRead: { readBy: req.user.name, readAt: new Date().getTime() },
-          },
-        },
-        {
-          new: true,
-        }
-      );
-      res.json(updatedGroupOne);
-      console.log("update read for group chat done");
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
-    }
-  }
-});
+
 const removeMessage = expressAsyncHandler(async (req, res) => {
   const { chatId, messageId } = req.body;
   // check if the requester is the sender of the message
@@ -182,8 +110,6 @@ const removeMessage = expressAsyncHandler(async (req, res) => {
 
 module.exports = {
   allMessages,
-  findMessage,
   sendMessage,
-  updateRead,
   removeMessage,
 };

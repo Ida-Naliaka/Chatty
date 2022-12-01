@@ -155,64 +155,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           setFetchAgain(!fetchAgain);
         }
       } else {
-        try {
-          const config = {
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          };
-          const readMessage = {
-            messageId: newMessageReceived._id,
-            chatId: selectedChat._id,
-          };
-          const postRead = async () => {
-            await axios.put(`/api/message/read`, readMessage, config);
-          };
-          postRead();
           setMessages([...messages, newMessageReceived]);
-        } catch (error) {
-          toast({
-            title: "Error Occured!",
-            description: "Couldnt set Readby User",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-            position: "bottom",
-          });
         }
       }
-    });
   });*/
-  useEffect(() => {
-    const config1 = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    const config2 = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    const findMessage = async () => {
-      await axios
-        .get(`/api/message/${selectedChat.latestMessage._id}`, config2)
-        .then((res) => {
-          const message = res.data;
-          const readMessage = {
-            messageId: message._id,
-            chatId: selectedChat._id,
-          };
-          const postRead = async () => {
-            await axios.put(`/api/message/read`, readMessage, config1);
-          };
-          postRead();
-        });
-    };
-    findMessage();
-  }, []);
 
   const postDetails = (uploads) => {
     setLoading(true);
