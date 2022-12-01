@@ -18,7 +18,6 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   //eslint-disable-next-line
-  const [socketConnected, setSocketConnected] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 

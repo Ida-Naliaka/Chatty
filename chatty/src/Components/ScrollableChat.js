@@ -5,7 +5,6 @@ import ScrollableFeed from "react-scrollable-feed";
 import DeleteMessageModal from "./Misc/DeleteMessageModal";
 import axios from "axios";
 import { CheckIcon, DownloadIcon } from "@chakra-ui/icons";
-var socket;
 
 const ScrollableChat = ({ messages, fetchAgain, setFetchAgain }) => {
   const { selectedChat, user } = ChatState();
@@ -30,7 +29,6 @@ const ScrollableChat = ({ messages, fetchAgain, setFetchAgain }) => {
         .then((res) => {
           messages = res.data;
           setLoading(false);
-          socket.emit("join chat", selectedChat._id);
         });
     } catch (error) {
       toast({

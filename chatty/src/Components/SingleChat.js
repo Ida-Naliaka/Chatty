@@ -21,19 +21,18 @@ import { getSender, getSenderFull } from "../Config/ChatLogic";
 import { ArrowBackIcon, LinkIcon } from "@chakra-ui/icons";
 import ProfileModal from "./Misc/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
-import io from "socket.io-client";
+//import io from "socket.io-client";
 import UpdateGroupChatModal from "./Misc/UpdateGroupChatModal";
 import InputEmoji from "react-input-emoji";
-const ENDPOINT = "http://localhost:5000";
-var socket;
+/*const ENDPOINT = "http://localhost:5000";
+var socket;*/
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
-  //eslint-disable-next-line
-  const [socketConnected, setSocketConnected] = useState(false);
+  //  const [socketConnected, setSocketConnected] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [type, setType] = useState("");
   const toast = useToast();
@@ -57,7 +56,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         .then((res) => {
           setMessages(res.data);
           setLoading(false);
-          socket.emit("join chat", selectedChat._id);
+          // socket.emit("join chat", selectedChat._id);
         });
     } catch (error) {
       toast({
@@ -87,7 +86,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           .post(`/api/message`, message, config)
           .then((res) => {
             setNewMessage("");
-            socket.emit("new message", res.data);
+            //  socket.emit("new message", res.data);
             setMessages([...messages, res.data]);
             setFetchAgain(!fetchAgain);
           })
@@ -120,7 +119,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         await axios.post(`/api/message`, attachment, config).then((res) => {
           setSelectedImage();
           onClose();
-          socket.emit("new message", res.data);
+          //socket.emit("new message", res.data);
           setMessages([...messages, res.data]);
           setFetchAgain(!fetchAgain);
         });
@@ -136,19 +135,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
-  useEffect(() => {
+  /*useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("user connected", () => setSocketConnected(true));
     // eslint-disable-next-line
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     fetchMessages();
     // eslint-disable-next-line
   }, [selectedChat]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
       if (!selectedChat || selectedChat._id !== newMessageReceived.chat._id) {
         if (!notification.includes(newMessageReceived)) {
@@ -184,7 +183,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
       }
     });
-  });
+  });*/
   useEffect(() => {
     const config1 = {
       headers: {

@@ -35,15 +35,7 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
 
-  const {
-    setSelectedChat,
-    user,
-    setUser,
-    notification,
-    setNotification,
-    chats,
-    setChats,
-  } = ChatState();
+  const { setSelectedChat, user, setUser, chats, setChats } = ChatState();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -161,7 +153,7 @@ const SideDrawer = () => {
           Chatty
         </Text>
         <div>
-          <Menu>
+          {/*<Menu>
             <MenuButton p={1}>
               <BellIcon fontSize="2xl" m={1} />
               <Badge colorScheme={"purple"} mb={3}>
@@ -190,7 +182,7 @@ const SideDrawer = () => {
                   ))
                 : "No New Messages"}
             </MenuList>
-          </Menu>
+          </Menu>*/}
 
           <Menu>
             <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>

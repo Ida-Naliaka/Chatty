@@ -52,7 +52,7 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, console.log(`Server Started on PORT ${port}`));
-
+/*
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
@@ -101,4 +101,4 @@ io.on("connection", (socket) => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
   });
-});
+});*/
