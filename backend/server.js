@@ -28,7 +28,9 @@ const connectDB = async () => {
 const port = process.env.PORT || 5000;
 
 connectDB().then(() => {
-  app.listen(port, console.log(`Server Started on PORT ${port}`));
+  app.listen(port, () => {
+    console.log(`Server Started on PORT ${port}`);
+  });
 });
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
