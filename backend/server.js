@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json()); //accept json data
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.URI, {
+    await mongoose.connect(process.env.URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
