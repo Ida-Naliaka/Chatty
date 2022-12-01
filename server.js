@@ -14,24 +14,17 @@ dotenv.config();
 const app = express();
 app.use(express.json()); //accept json data
 const connectDB = async () => {
+  // {useNewUrlParser: true,useUnifiedTopology: true,}
   try {
-    await mongoose.connect(process.env.URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("MongoDB Connected Successfully");
+    const conn = await mongoose.connect(process.env.URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.log(`Error: ${error.message}`);
-    process.exit();
+    process.exit(1);
   }
 };
 const port = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server Started on PORT ${port}`);
-  });
-});
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
@@ -56,6 +49,11 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server Started on PORT ${port}`);
+  });
+});
 /*
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
