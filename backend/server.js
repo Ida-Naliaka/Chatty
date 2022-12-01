@@ -25,7 +25,11 @@ const connectDB = async () => {
     process.exit();
   }
 };
-connectDB();
+const port = process.env.PORT || 5000;
+
+connectDB().then(() => {
+  app.listen(port, console.log(`Server Started on PORT ${port}`));
+});
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
@@ -50,8 +54,6 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-const port = process.env.PORT || 5000;
-const server = app.listen(port, console.log(`Server Started on PORT ${port}`));
 /*
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
